@@ -1,5 +1,6 @@
 const express = require("express");
 const axios = require("axios");
+const cache = require("../cache/memoryCache");
 
 const router = express.Router();
 
