@@ -11,14 +11,15 @@ function App() {
   const [error, setError] = useState("");
    const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
+  const API_URL = "https://github-repo-explorer-y0zw.onrender.com";
 
   const loadMoreRepos = async () => {
     try {
       const nextPage = page + 1;
 
       const response = await fetch(
-        `http://localhost:5000/api/github/${user.login}/repos?page=${nextPage}`
-      );
+  `${API_URL}/api/github/${user.login}/repos?page=${nextPage}`
+);
 
       const data = await response.json();
 

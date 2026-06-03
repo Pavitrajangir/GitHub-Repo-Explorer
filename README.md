@@ -10,9 +10,15 @@ This project is a GitHub Repository Explorer built as part of the assigned codin
 
 Frontend: https://your-frontend-url.com
 
-Backend: https://your-backend-url.com
+Backend API:
+https://github-repo-explorer-y0zw.onrender.com
+
+Example API Request:
+https://github-repo-explorer-y0zw.onrender.com/api/github/octocat
 
 ---
+
+
 
 ## Features
 
@@ -141,6 +147,7 @@ Create a .env file:
 ```env
 PORT=5000
 GITHUB_TOKEN=your_github_token
+CACHE_TTL=60000
 ```
 
 Run backend:
@@ -291,53 +298,93 @@ GitHub-Repo-Explorer
 
 ---
 
-AI and External Assistance Disclosure
+## Deployment
 
-AI tools (ChatGPT) were used as a development assistant during specific parts of the project. The assistance was primarily focused on implementation guidance, debugging support, and UI/UX suggestions.
+* The frontend is deployed on Vercel.
+
+* Frontend URL:
+
+https://your-frontend-url.vercel.app
+
+* The backend is deployed on Render.
+
+* Backend API:
+
+https://github-repo-explorer-y0zw.onrender.com
+
+* Example API Request:
+
+https://github-repo-explorer-y0zw.onrender.com/api/github/octocat
+
+
+* Deployment Architecture
+User
+ │
+ ▼
+Frontend (Vercel)
+ │
+ ▼
+Backend API (Render)
+ │
+ ▼
+GitHub REST API
+Deployment Note
+
+The backend is hosted on Render's free tier. If the backend has been inactive for some time, the first request may take a few seconds while the service wakes up.
+
+
+## AI and External Assistance Disclosure
+
+* AI tools (ChatGPT) were used as a development assistant during specific parts of the project. The assistance was primarily focused on implementation guidance, debugging support, and UI/UX suggestions.
 
 Areas where AI assistance was used:
 
-Frontend
-Designing and implementing the loading overlay experience (background blur and loading state handling).
-Suggestions for the expandable repository details feature (showing open issues count, default branch, forks, etc.).
-UI/UX improvements for the search interface and repository cards.
-Debugging React state management and component integration issues.
-Backend
-Suggestions for API response caching strategy using in-memory caching.
-Guidance for GitHub API error handling (user not found, rate limiting, and server errors).
-Assistance with implementing repository pagination and load-more functionality.
-General Express.js route structure and API design recommendations.
+* Frontend
+    * Designing and implementing the loading overlay experience (background blur and loading state handling).
+    * Suggestions for the expandable repository details feature (showing open issues count, default branch, forks, etc.).
+    * UI/UX improvements for the search interface and repository cards.
+    * Debugging React state management and component integration issues.
+
+* Backend
+    * Suggestions for API response caching strategy using in-memory caching.
+    * Guidance for GitHub API error handling (user not found, rate limiting, and server errors).
+    * Assistance with implementing repository pagination and load-more functionality.
+    * General Express.js route structure and API design recommendations.
+
 Documentation
 Assistance in structuring and organizing the README file.
 
-All code integration, architecture decisions, debugging, testing, customization, and final implementation were completed manually. Every AI-generated suggestion was reviewed, modified when necessary, and verified before being included in the project.
+* All code integration, architecture decisions, debugging, testing, customization, and final implementation were completed manually. Every AI-generated suggestion was reviewed, modified when necessary, and verified before being included in the project.
 
-Additional References
-GitHub REST API Documentation
-React Documentation
-Express.js Documentation
-Tailwind CSS Documentation
-Axios Documentation
+* Additional References
+
+    * GitHub REST API Documentation
+    * React Documentation
+    * Express.js Documentation
+    * Tailwind CSS Documentation
+    * Axios Documentation
 
 
 Next Steps
 
-The current implementation focuses on delivering a complete GitHub Repository Explorer with user search, repository exploration, sorting, pagination, caching, error handling, and an improved user experience.
+* The current implementation focuses on delivering a complete GitHub Repository Explorer with user search, repository exploration, sorting, pagination, caching, error handling, and an improved user experience.
 
 If I were to continue developing this project, the next areas I would focus on are:
 
-Repository Search & Filtering
-Search repositories by name within the fetched results.
-Filter repositories by programming language, stars, or fork status.
-Combine sorting and filtering for easier repository discovery.
-Advanced Repository Insights
-Display repository topics and tags.
-Show license information and repository size.
-Provide visual statistics such as language distribution and repository activity.
-Enhanced User Experience
-Infinite scrolling as an alternative to the current "Load More" functionality.
-Skeleton loaders for repository cards while data is being fetched.
-Dark/Light theme support with user preferences stored locally.
+* Repository Search & Filtering
+    * Search repositories by name within the fetched results.
+    * Filter repositories by programming language, stars, or fork status.
+    * Combine sorting and filtering for easier repository discovery.
+
+* Advanced Repository Insights
+    * Display repository topics and tags.
+    * Show license information and repository size.
+    * Provide visual statistics such as language distribution and repository activity.
+
+* Enhanced User Experience
+    * Infinite scrolling as an alternative to the current "Load More" functionality.
+    * Skeleton loaders for repository cards while data is being fetched.
+    * Dark/Light theme support with user preferences stored locally.
 
 ## Tutorials and Code Snippets
 

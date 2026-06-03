@@ -4,6 +4,8 @@ import { FaGithub, FaSearch, FaTimes } from "react-icons/fa";
 const SearchBar = ({ setUser, setRepos, setLoading, setError, setPage, setHasMore, }) => {
   const [username, setUsername] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
+  const API_URL =
+  "https://github-repo-explorer-y0zw.onrender.com";
 
   // Load recent searches on page load
   useEffect(() => {
@@ -50,8 +52,8 @@ const SearchBar = ({ setUser, setRepos, setLoading, setError, setPage, setHasMor
       setError("");
 
       const userResponse = await fetch(
-        `http://localhost:5000/api/github/${username}`,
-      );
+  `${API_URL}/api/github/${username}`
+);
 
       const userData = await userResponse.json();
 
@@ -60,8 +62,8 @@ const SearchBar = ({ setUser, setRepos, setLoading, setError, setPage, setHasMor
       }
 
       const repoResponse = await fetch(
-        `http://localhost:5000/api/github/${username}/repos`,
-      );
+  `${API_URL}/api/github/${username}/repos?page=1`
+);
 
       const repoData = await repoResponse.json();
 
