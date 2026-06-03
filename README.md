@@ -8,7 +8,7 @@ This project is a GitHub Repository Explorer built as part of the assigned codin
 
 ## Live Demo
 
-Frontend: https://your-frontend-url.com
+Frontend: https://git-hub-repo-explorer-uwbs.vercel.app/
 
 Backend API:
 https://github-repo-explorer-y0zw.onrender.com
@@ -304,7 +304,7 @@ GitHub-Repo-Explorer
 
 * Frontend URL:
 
-https://your-frontend-url.vercel.app
+https://git-hub-repo-explorer-uwbs.vercel.app/
 
 * The backend is deployed on Render.
 
