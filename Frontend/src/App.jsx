@@ -9,6 +9,33 @@ function App() {
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+   const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+
+  const loadMoreRepos = async () => {
+    try {
+      const nextPage = page + 1;
+
+      const response = await fetch(
+        `http://localhost:5000/api/github/${user.login}/repos?page=${nextPage}`
+      );
+
+      const data = await response.json();
+
+      setRepos((prevRepos) => [
+        ...prevRepos,
+        ...data.repos,
+      ]);
+
+      setPage(nextPage);
+
+      if (data.repos.length < 30) {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -29,6 +56,8 @@ function App() {
           setRepos={setRepos}
           setLoading={setLoading}
           setError={setError}
+           setPage={setPage}
+  setHasMore={setHasMore}
         />
         {error && (
           <div className="max-w-3xl mx-auto mt-6">
@@ -42,12 +71,12 @@ function App() {
         {user && (
           <div className="max-w-7xl mx-auto px-6 py-10">
             <div className="grid lg:grid-cols-4 gap-8">
-              {/* User Profile */}
-              <UserCard user={user} />
+              <div className="self-start">
+                <UserCard user={user} />
+              </div>
 
-              {/* Repo List */}
               <div className="lg:col-span-3">
-                <RepoList repos={repos} />
+                <RepoList repos={repos} hasMore={hasMore} loadMoreRepos={loadMoreRepos} />
               </div>
             </div>
           </div>

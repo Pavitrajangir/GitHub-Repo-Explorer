@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaStar, FaChevronDown, FaChevronUp } from "react-icons/fa";
 
-const RepoList = ({ repos = [] }) => {
+const RepoList = ({ repos, hasMore, loadMoreRepos = [] }) => {
   const [expandedRepo, setExpandedRepo] = useState(null);
   const [sortBy, setSortBy] = useState("stars");
   const toggleRepo = (repoId) => {
@@ -59,7 +59,8 @@ const RepoList = ({ repos = [] }) => {
             border-slate-700
             cursor-pointer
             hover:border-blue-500
-            transition-all">
+            transition-all"
+          >
             <h3 className="text-blue-400 font-semibold text-xl">{repo.name}</h3>
 
             <p className="text-gray-400 mt-2">{repo.description}</p>
@@ -92,6 +93,24 @@ const RepoList = ({ repos = [] }) => {
           </div>
         ))}
       </div>
+      {hasMore && (
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={loadMoreRepos}
+            className="
+                px-6
+                py-3
+                bg-blue-600
+                hover:bg-blue-700
+                text-white
+                rounded-xl
+                font-medium
+                cursor-pointer
+              ">
+            Load More Repositories
+          </button>
+        </div>
+      )}
     </>
   );
 };

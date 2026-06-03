@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaGithub, FaSearch, FaTimes } from "react-icons/fa";
 
-const SearchBar = ({ setUser, setRepos, setLoading, setError }) => {
+const SearchBar = ({ setUser, setRepos, setLoading, setError, setPage, setHasMore, }) => {
   const [username, setUsername] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
 
@@ -67,6 +67,8 @@ const SearchBar = ({ setUser, setRepos, setLoading, setError }) => {
 
       setUser(userData);
       setRepos(repoData.repos);
+      setPage(1);
+setHasMore(repoData.repos.length === 30);
     } catch (error) {
       setUser(null);
       setRepos([]);

@@ -2,7 +2,7 @@ import React from "react";
 
 const UserCard = ({ user }) => {
   return (
-    <div className="h-[20%] p-6 rounded-3xl border-3 border-slate-700">
+    <div className="p-6 rounded-3xl border-3 border-slate-700">
       <img
         src={user.avatar_url}
         alt={user.login}
