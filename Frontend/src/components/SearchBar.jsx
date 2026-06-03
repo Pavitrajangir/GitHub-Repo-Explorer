@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaGithub, FaSearch, FaTimes } from "react-icons/fa";
 
-const SearchBar = ({setUser, setRepos}) => {
+const SearchBar = ({setUser, setRepos, setLoading}) => {
 
   const [username, setUsername] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
@@ -53,25 +53,29 @@ const SearchBar = ({setUser, setRepos}) => {
   const handleSearch = async () => {
   if (!username.trim()) return;
 
+  saveRecentSearch(username);
+
   try {
-    const userResponse = await fetch(
+    setLoading(true);
+
+    const userRes = await fetch(
       `http://localhost:5000/api/github/${username}`
     );
 
-    const userData = await userResponse.json();
+    const userData = await userRes.json();
 
-    const repoResponse = await fetch(
+    const repoRes = await fetch(
       `http://localhost:5000/api/github/${username}/repos`
     );
 
-    const repoData = await repoResponse.json();
+    const repoData = await repoRes.json();
 
     setUser(userData);
-    console.log("Repo Data:", repoData);
     setRepos(repoData.repos);
-
   } catch (error) {
-    console.log(error);
+    console.error(error);
+  } finally {
+    setLoading(false);
   }
 };
 
