@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { FaGithub, FaSearch, FaTimes } from "react-icons/fa";
 
-const SearchBar = () => {
+const SearchBar = ({setUser, setRepos}) => {
 
-    const [recentSearches, setRecentSearches] = useState([]);
+  const [username, setUsername] = useState("");
+  const [recentSearches, setRecentSearches] = useState([]);
 
-    // Load recent searches on page load
+  // Load recent searches on page load
   useEffect(() => {
     const storedSearches = localStorage.getItem("recentSearches");
 
@@ -34,7 +35,7 @@ const SearchBar = () => {
     );
   };
 
-    // Remove recent search
+  // Remove recent search
   const removeSearch = (userToRemove) => {
     const updatedSearches = recentSearches.filter(
       (user) => user !== userToRemove
@@ -48,7 +49,39 @@ const SearchBar = () => {
     );
   };
 
-  
+  // Search Handler
+  const handleSearch = async () => {
+  if (!username.trim()) return;
+
+  try {
+    const userResponse = await fetch(
+      `http://localhost:5000/api/github/${username}`
+    );
+
+    const userData = await userResponse.json();
+
+    const repoResponse = await fetch(
+      `http://localhost:5000/api/github/${username}/repos`
+    );
+
+    const repoData = await repoResponse.json();
+
+    setUser(userData);
+    console.log("Repo Data:", repoData);
+    setRepos(repoData.repos);
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+  // Search on Enter
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <section className="min-h-[60vh] flex items-center justify-center px-4">
       <div className="w-full max-w-4xl text-center">
@@ -148,6 +181,7 @@ const SearchBar = () => {
                 >
                   <button
                     onClick={() => {
+                      setUsername(user);
 
                       // Trigger search again
                       console.log(
