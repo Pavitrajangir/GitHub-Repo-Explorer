@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaGithub, FaSearch, FaTimes } from "react-icons/fa";
 
-const SearchBar = ({setUser, setRepos, setLoading}) => {
+const SearchBar = ({setUser, setRepos, setLoading, setError}) => {
 
   const [username, setUsername] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
@@ -50,35 +50,66 @@ const SearchBar = ({setUser, setRepos, setLoading}) => {
   };
 
   // Search Handler
-  const handleSearch = async () => {
+ const handleSearch = async () => {
   if (!username.trim()) return;
-
-  saveRecentSearch(username);
 
   try {
     setLoading(true);
+    setError("");
 
-    const userRes = await fetch(
+    const userResponse = await fetch(
       `http://localhost:5000/api/github/${username}`
     );
 
-    const userData = await userRes.json();
+    const userData = await userResponse.json();
 
-    const repoRes = await fetch(
+    if (!userResponse.ok) {
+      throw new Error(
+        userData.message || "GitHub user not found."
+      );
+    }
+
+    const repoResponse = await fetch(
       `http://localhost:5000/api/github/${username}/repos`
     );
 
-    const repoData = await repoRes.json();
+    const repoData = await repoResponse.json();
 
     setUser(userData);
     setRepos(repoData.repos);
+
   } catch (error) {
-    console.error(error);
+
+    setUser(null);
+    setRepos([]);
+
+    // Rate Limit Handling
+    if (
+      error.message.toLowerCase().includes("rate")
+    ) {
+      setError(
+        "GitHub API rate limit exceeded. Please try again later."
+      );
+    }
+
+    // Network Error
+    else if (
+      error.message.includes("Failed to fetch")
+    ) {
+      setError(
+        "Network error. Please check your internet connection or backend server."
+      );
+    }
+
+    // 👇 User Not Found
+    else {
+      setError(error.message);
+    }
+
   } finally {
     setLoading(false);
   }
 };
-
   // Search on Enter
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -139,6 +170,7 @@ const SearchBar = ({setUser, setRepos, setLoading}) => {
                 focus:border-blue-500
               "
             />
+            
           </div>
 
           <button

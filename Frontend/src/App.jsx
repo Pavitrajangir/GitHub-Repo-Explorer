@@ -8,6 +8,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   return (
     <>
@@ -27,7 +28,15 @@ function App() {
           setUser={setUser}
           setRepos={setRepos}
           setLoading={setLoading}
+          setError={setError}
         />
+        {error && (
+  <div className="max-w-3xl mx-auto mt-6">
+    <div className="bg-red-500/10 border border-red-500 text-red-400 px-6 py-4 rounded-2xl">
+      {error}
+    </div>
+  </div>
+)}
 
         {/* User + Repositories */}
         {user && (
