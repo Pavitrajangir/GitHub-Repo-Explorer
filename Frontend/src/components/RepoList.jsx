@@ -31,12 +31,12 @@ const RepoList = ({ repos = [] }) => {
   return (
     <>
       <div className="flex justify-between mb-5">
-        <h2 className="text-2xl font-bold text-white">Repositories</h2>
+        <h2 className="text-2xl font-bold text-black">Repositories</h2>
 
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          className="bg-slate-900 text-white border border-slate-700 rounded-xl px-4 py-2"
+          className=" text-black border border-slate-700 rounded-xl px-2 py-2 cursor-pointer"
         >
           <option value="stars">Stars</option>
 
@@ -52,10 +52,10 @@ const RepoList = ({ repos = [] }) => {
             key={repo.id}
             onClick={() => toggleRepo(repo.id)}
             className="
-            bg-slate-900
+            
             p-5
             rounded-2xl
-            border
+            border-3
             border-slate-700
             cursor-pointer
             hover:border-blue-500

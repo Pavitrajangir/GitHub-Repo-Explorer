@@ -2,7 +2,7 @@ import React from "react";
 
 const UserCard = ({ user }) => {
   return (
-    <div className="bg-slate-900 p-6 rounded-3xl border border-slate-700">
+    <div className="h-[20%] p-6 rounded-3xl border-3 border-slate-700">
       <img
         src={user.avatar_url}
         alt={user.login}
@@ -13,36 +13,22 @@ const UserCard = ({ user }) => {
         {user.name || user.login}
       </h2>
 
-      <p className="text-gray-400 text-center mt-2">
-        {user.bio}
-      </p>
+      <p className="text-gray-400 text-center mt-2">{user.bio}</p>
 
       <div className="grid grid-cols-3 mt-6 text-center">
         <div>
-          <p className="text-blue-500 font-bold">
-            {user.followers}
-          </p>
-          <p className="text-gray-400 text-sm">
-            Followers
-          </p>
+          <p className="text-blue-500 font-bold">{user.followers}</p>
+          <p className="text-gray-400 text-sm">Followers</p>
         </div>
 
         <div>
-          <p className="text-blue-500 font-bold">
-            {user.following}
-          </p>
-          <p className="text-gray-400 text-sm">
-            Following
-          </p>
+          <p className="text-blue-500 font-bold">{user.following}</p>
+          <p className="text-gray-400 text-sm">Following</p>
         </div>
 
         <div>
-          <p className="text-blue-500 font-bold">
-            {user.public_repos}
-          </p>
-          <p className="text-gray-400 text-sm">
-            Repos
-          </p>
+          <p className="text-blue-500 font-bold">{user.public_repos}</p>
+          <p className="text-gray-400 text-sm">Repos</p>
         </div>
       </div>
     </div>

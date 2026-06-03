@@ -27,7 +27,7 @@ router.get("/:username", async (req, res) => {
     console.log(`[API CALL] Fetching user: ${username}`);
     const response = await axios.get(
       `https://api.github.com/users/${username}`,
-      { headers: getGitHubHeaders() }
+      { headers: getGitHubHeaders() },
     );
 
     const userData = {
@@ -74,7 +74,7 @@ router.get("/:username/repos", async (req, res) => {
       {
         headers: getGitHubHeaders(),
         params: { page, per_page, type: "public" },
-      }
+      },
     );
 
     const repos = response.data.map((repo) => ({

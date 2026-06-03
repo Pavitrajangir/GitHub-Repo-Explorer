@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaGithub, FaSearch, FaTimes } from "react-icons/fa";
 
-const SearchBar = ({setUser, setRepos, setLoading, setError}) => {
-
+const SearchBar = ({ setUser, setRepos, setLoading, setError }) => {
   const [username, setUsername] = useState("");
   const [recentSearches, setRecentSearches] = useState([]);
 
@@ -22,94 +21,76 @@ const SearchBar = ({setUser, setRepos, setLoading, setError}) => {
     const updatedSearches = [
       searchedUser,
       ...recentSearches.filter(
-        (item) =>
-          item.toLowerCase() !== searchedUser.toLowerCase()
+        (item) => item.toLowerCase() !== searchedUser.toLowerCase(),
       ),
     ].slice(0, 5);
 
     setRecentSearches(updatedSearches);
 
-    localStorage.setItem(
-      "recentSearches",
-      JSON.stringify(updatedSearches)
-    );
+    localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
   };
 
   // Remove recent search
   const removeSearch = (userToRemove) => {
     const updatedSearches = recentSearches.filter(
-      (user) => user !== userToRemove
+      (user) => user !== userToRemove,
     );
 
     setRecentSearches(updatedSearches);
 
-    localStorage.setItem(
-      "recentSearches",
-      JSON.stringify(updatedSearches)
-    );
+    localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
   };
 
   // Search Handler
- const handleSearch = async () => {
-  if (!username.trim()) return;
+  const handleSearch = async () => {
+    if (!username.trim()) return;
 
-  try {
-    setLoading(true);
-    setError("");
+    try {
+      setLoading(true);
+      setError("");
 
-    const userResponse = await fetch(
-      `http://localhost:5000/api/github/${username}`
-    );
-
-    const userData = await userResponse.json();
-
-    if (!userResponse.ok) {
-      throw new Error(
-        userData.message || "GitHub user not found."
+      const userResponse = await fetch(
+        `http://localhost:5000/api/github/${username}`,
       );
-    }
 
-    const repoResponse = await fetch(
-      `http://localhost:5000/api/github/${username}/repos`
-    );
+      const userData = await userResponse.json();
 
-    const repoData = await repoResponse.json();
+      if (!userResponse.ok) {
+        throw new Error(userData.message || "GitHub user not found.");
+      }
 
-    setUser(userData);
-    setRepos(repoData.repos);
-
-  } catch (error) {
-
-    setUser(null);
-    setRepos([]);
-
-    // Rate Limit Handling
-    if (
-      error.message.toLowerCase().includes("rate")
-    ) {
-      setError(
-        "GitHub API rate limit exceeded. Please try again later."
+      const repoResponse = await fetch(
+        `http://localhost:5000/api/github/${username}/repos`,
       );
-    }
 
-    // Network Error
-    else if (
-      error.message.includes("Failed to fetch")
-    ) {
-      setError(
-        "Network error. Please check your internet connection or backend server."
-      );
-    }
+      const repoData = await repoResponse.json();
 
-    // 👇 User Not Found
-    else {
-      setError(error.message);
-    }
+      setUser(userData);
+      setRepos(repoData.repos);
+    } catch (error) {
+      setUser(null);
+      setRepos([]);
 
-  } finally {
-    setLoading(false);
-  }
-};
+      // Rate Limit Handling
+      if (error.message.toLowerCase().includes("rate")) {
+        setError("GitHub API rate limit exceeded. Please try again later.");
+      }
+
+      // Network Error
+      else if (error.message.includes("Failed to fetch")) {
+        setError(
+          "Network error. Please check your internet connection or backend server.",
+        );
+      }
+
+      // 👇 User Not Found
+      else {
+        setError(error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
   // Search on Enter
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -122,22 +103,21 @@ const SearchBar = ({setUser, setRepos, setLoading, setError}) => {
       <div className="w-full max-w-4xl text-center">
         {/* Header */}
         <div className="flex items-center justify-center gap-5 mb-8">
-  {/* GitHub Logo */}
-  <div className="p-4 rounded-3xl bg-blue-500/10 border border-black flex items-center justify-center">
-    <FaGithub className="text-5xl md:text-6xl text-black" />
-  </div>
+          {/* GitHub Logo */}
+          <div className="p-4 rounded-3xl bg-blue-500/10 border border-black flex items-center justify-center">
+            <FaGithub className="text-5xl md:text-6xl text-black" />
+          </div>
 
-  {/* Title + Subtitle */}
-  <div className="flex flex-col justify-center">
-    <h1 className="text-4xl md:text-7xl font-bold text-black leading-none">
-      GitHub Explorer
-    </h1>
-  </div>
-</div>
+          {/* Title + Subtitle */}
+          <div className="flex flex-col justify-center">
+            <h1 className="text-4xl md:text-7xl font-bold text-black leading-none">
+              GitHub Explorer
+            </h1>
+          </div>
+        </div>
 
         <p className="text-gray-400 text-lg md:text-xl mb-10">
-          Explore profiles, repositories, languages and
-          open-source projects.
+          Explore profiles, repositories, languages and open-source projects.
         </p>
 
         {/* Search Bar */}
@@ -148,9 +128,7 @@ const SearchBar = ({setUser, setRepos, setLoading, setError}) => {
             <input
               type="text"
               value={username}
-              onChange={(e) =>
-                setUsername(e.target.value)
-              }
+              onChange={(e) => setUsername(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Search GitHub Username..."
               className="
@@ -170,7 +148,6 @@ const SearchBar = ({setUser, setRepos, setLoading, setError}) => {
                 focus:border-blue-500
               "
             />
-            
           </div>
 
           <button
@@ -184,6 +161,7 @@ const SearchBar = ({setUser, setRepos, setLoading, setError}) => {
               text-white
               font-semibold
               transition-all
+              cursor-pointer
             "
           >
             Search
@@ -220,10 +198,7 @@ const SearchBar = ({setUser, setRepos, setLoading, setError}) => {
                       setUsername(user);
 
                       // Trigger search again
-                      console.log(
-                        "Searching recent:",
-                        user
-                      );
+                      console.log("Searching recent:", user);
                     }}
                     className="text-gray-300 hover:text-white"
                   >
@@ -231,9 +206,7 @@ const SearchBar = ({setUser, setRepos, setLoading, setError}) => {
                   </button>
 
                   <button
-                    onClick={() =>
-                      removeSearch(user)
-                    }
+                    onClick={() => removeSearch(user)}
                     className="
                       text-gray-500
                       hover:text-red-500
@@ -249,6 +222,6 @@ const SearchBar = ({setUser, setRepos, setLoading, setError}) => {
       </div>
     </section>
   );
-}
+};
 
-export default SearchBar
+export default SearchBar;
